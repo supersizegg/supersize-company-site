@@ -276,6 +276,9 @@ main.page {
   .supersize-logo {
     height: clamp(96px, 28vw, 160px);
   }
+  .games .section-inner {
+    align-items: center;
+  }
   .games-grid {
     gap: 24px;
   }
