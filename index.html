@@ -1,71 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Supersize</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supersize</title>
+    <meta name="description" content="Play games for crypto">
+    <link rel="icon" type="image/png" href="supersize-inverted.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-    <a href="#" id="home-link" class="active">home</a>
-    <a href="#" id="slimecoin-link">slimecoin</a>
-  </nav>
-  <main>
-    <section id="home-section" class="active">
-      <div class="logo-name">
-        <pre class="logo">
-                                       **                                       
-                                      *%%*                                      
-                                    .#%%%%*                                     
-                                   .#%%%%%%*                                    
-                                  .%%%%%%%%%#.                                  
-               :-:.               :--+%%%%=--:               .:--               
-               :%%%#*+=-..           -%%%%            .:-=+##%%%-               
-                *%%%%%%%%*.          -%%%%.          .*%%%%%%%%#                
-                :%%%%%%%*            -%%%%.            +%%%%%%%:                
-                 *%%%%%%%*:          -%%%%.          :*%%%%%%%#                 
-                 :%%+#%%%%%+.        -%%%%.        .+%%%%%*+%%-                 
-                  =:  -#%%%%%=       -%%%%.       =%%%%%#-  .=                  
-                        =%%%%%%-     -%%%%.     -%%%%%#-                        
-                         .+%%%%%#-   -%%%%.   -#%%%%%=                          
-                           .*%%%%%*: =%%%%. :*%%%%%+.                           
-                             :#%%%%%#%%%%%%#%%%%%*.                             
-            -+%:               -#%%%%%%%%%%%%%%*:               :%+-            
-        .-*%%%%-:::::::::::::::.-%%%%%%%%%%%%%%=.:::::::::::::::-%%%%*-.        
-     .=*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*=.     
-     .=#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#=.     
-        .=*%%%%=---------------:=%%%%%%%%%%%%%%=:---------------=%%%%*=.        
-           .-*%:               .+%%%%%%%%%%%%%%+.               :%*-.           
-              .               =%%%%%%%%%%%%%%%%%%=               .              
-                            -%%%%%#- =%%%%:.=%%%%%%-                            
-                          -#%%%%%=   -%%%%   .+%%%%%#-                          
-                        :*%%%%%+.    -%%%%.    .*%%%%%*:                        
-                  -.  .*%%%%%*.      -%%%%.      :#%%%%%*.   -                  
-                 .%%=+%%%%%#:        -%%%%.        -#%%%%%+=%%:                 
-                 +%%%%%%%#-          -%%%%.          =%%%%%%%%*                 
-                .%%%%%%%*            -%%%%.            *%%%%%%%:                
-                +%%%%%%%%*.          -%%%%.          .+%%%%%%%%*                
-               .%%%%#*+-:.           -%%%%            .:-+*#%%%%:               
-               :=:.               :--+%%%%=--:               .-=-               
-                                  .%%%%%%%%%#.                                  
-                                   .#%%%%%%*                                    
-                                    .#%%%%*                                     
-                                      *%%*                                      
-                                       **                                       
-        </pre>
-        <h1 class="company-name">Supersize</h1>
-      </div>
-      <h2 class="tagline">Casual games with real liquidity</h2>
+    <section class="supersize">
+        <div class="supersize-inner">
+            <!-- <img src="supersize-inverted.png" alt="Supersize" class="supersize-logo"> -->
+            <h1 class="supersize-title">SUPERSIZE</h1>
+            <h2 class="supersize-subtitle">Casual games with real liquidity</h2>
+        </div>
     </section>
-    <section id="slimecoin-section">
-      <div class="logo-name">
-      <img src="slime.png" alt="Slimecoin Logo" width="230px" height="230px" style="margin-right: 20px;"/>
-      <h1 class="slimecoin-link"><a href="https://slimecoin.io" target="_blank" rel="noopener">slimecoin.io</a></h1>
-      </div>
-      <h2 class="tagline">Degenerate io games. Fully onchain, non-custodial, with instant payouts.</h2>
-    </section>
-  </main>
-  <script src="script.js"></script>
+
+    <main class="page">
+        <section class="thesis">
+            <div class="section-inner">
+                <h2>Our thesis</h2>
+                <p>Casual gaming meets real liquidity. Play, earn, and spend crypto seamlessly - fully onchain, non-custodial, and powered by players.</p>
+            </div>
+        </section>
+
+        <section class="games">
+            <div class="section-inner">
+                <h2>Our Projects</h2>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-media">
+                            <video autoplay muted loop playsinline preload="metadata" poster="slimecoin.png">
+                                <source src="slimecoin.mp4" type="video/mp4">
+                                <img src="slimecoin.png" alt="Slimecoin">
+                            </video>
+                        </div>
+                        <div class="game-overlay">
+                            <div class="game-overlay-content">
+                                <h3>Slimecoin.io</h3>
+                                <p>Real money io games. Fully onchain, non-custodial, with instant payouts.</p>
+                                <div class="game-links">
+                                    <a href="https://slimecoin.io" target="_blank">Play Now</a>
+                                    <a href="https://x.com/slimecoinio" target="_blank">Twitter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card coming-soon">
+                        <div class="game-media">
+                            <video autoplay muted loop playsinline preload="metadata" poster="cultofthegoose.png">
+                                <source src="cult-of-the-goose.mp4" type="video/mp4">
+                                <img src="cultofthegoose.png" alt="Cult of the Goose">
+                            </video>
+                        </div>
+                        <div class="game-overlay">
+                            <div class="game-overlay-content">
+                                <h3>TBA</h3>
+                                <p>Coming soon</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="partners">
+            <div class="section-inner">
+                <h2>Partners &amp; Investors</h2>
+                <div class="partners-grid">
+                    <a href="https://www.colosseum.com/" target="_blank">
+                        <img src="colosseum.png" alt="Colosseum">
+                    </a>
+                    <a href="https://pressstart.capital/" target="_blank">
+                        <img src="press-start.png" alt="Press Start">
+                    </a>
+                    <a href="https://www.sanctor.com/" target="_blank">
+                        <img src="sanctor.png" alt="Sanctor">
+                    </a>
+                    <a href="https://www.magicblock.xyz/" target="_blank">
+                        <img src="magicblock.avif" alt="MagicBlock">
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="section-inner">
+            <p>&copy; 2025 Supersize, Inc.</p>
+        </div>
+    </footer>
 </body>
 </html>
