@@ -110,20 +110,24 @@ main.page {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 32px;
-  width: 100%;
+  width: 50%;
 }
 .game-card {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 1 / 1;
   display: flex;
   border-radius: 28px;
   background: #07070a;
   transition: transform 0.45s ease;
 }
+/* Keep your existing opacity swap … and add this state so JS can force it */
+.game-card.is-playing .media-container .default-img { opacity: 0; }
+.game-card.is-playing .media-container .hover-play  { opacity: 1; }
+
 .game-card:hover,
 .game-card:focus-within {
-  transform: translateY(-4px);
+  /*transform: translateY(-4px);*/
 }
 .game-media,
 .game-media video,
