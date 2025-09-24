@@ -107,10 +107,9 @@ main.page {
   letter-spacing: -0.02em;
 }
 .games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 32px;
-  width: 50%;
+  display: flex;
+  height: 50vh;
+  width: 100%;
 }
 .game-card {
   position: relative;
@@ -150,7 +149,7 @@ main.page {
   padding: clamp(20px, 4vh, 32px);
   background: linear-gradient(180deg, rgba(7, 7, 10, 0) 35%, rgba(7, 7, 10, 0.82) 100%);
   color: #f4f6fb;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
@@ -285,9 +284,10 @@ main.page {
   }
   .games-grid {
     gap: 24px;
+    justify-content: center;
   }
   .game-card {
-    aspect-ratio: 3 / 5;
+    aspect-ratio: 1 / 1;
   }
   .game-card .game-overlay {
     opacity: 1;
