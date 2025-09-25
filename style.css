@@ -56,6 +56,11 @@ main.page {
   width: auto;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.08));
 }
+.supersize-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 .supersize-title {
   font-size: clamp(3.5rem, 16vw, 18rem);
   font-weight: 600;
@@ -234,6 +239,70 @@ main.page {
   height: 36px;
   width: auto;
 }
+/* Layout */
+.footerbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  padding: clamp(0.5rem, 2vw, 1rem) 0;
+}
+
+/* Center the text while allowing left/right to hug edges */
+.footerbar > .btn-x { flex: 0 0 auto; }
+.footerbar > .supersize-logo { flex: 0 0 auto; }
+.footerbar > .footerbar__right { margin-left: auto; }
+
+/* Consistent visual sizing */
+.supersize-logo {
+  height: clamp(2.25rem, 5vw, 2.75rem);
+  width: auto;
+  display: block;
+}
+
+/* Follow button */
+.btn-x {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background: #000;
+  color: #e7e9ea;
+  border-radius: 9999px;
+  text-decoration: none;
+  line-height: 1;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  white-space: nowrap;
+}
+
+/* Icon + label alignment */
+.btn-x__icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.btn-x__label {
+  font-weight: 600;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Interactions */
+.btn-x:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+.btn-x:active { transform: translateY(0); box-shadow: 0 3px 12px rgba(0,0,0,0.2); }
+.btn-x:focus-visible { outline: 2px solid #e7e9ea; outline-offset: 2px; }
+
+/* Small screens: keep left/center/right on one line as long as possible.
+   If it wraps, the center stays centered naturally. */
+@media (max-width: 420px) {
+  .footerbar {
+    flex-wrap: wrap;
+  }
+  .footerbar > .btn-x { order: 1; }
+  .footerbar > .supersize-logo { order: 3; }
+}
+
+
 .footer {
   padding: 20px;
   border-top: 1px solid var(--card-border);
@@ -277,7 +346,7 @@ main.page {
     font-size: clamp(3rem, 18vw, 5.5rem);
   }
   .supersize-logo {
-    height: clamp(96px, 28vw, 160px);
+    height: clamp(29.16px, 8.505vw, 48.6px);
   }
   .games .section-inner {
     align-items: center;
