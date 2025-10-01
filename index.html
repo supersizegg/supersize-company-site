@@ -1,181 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Supersize</title>
-  <meta name="description" content="Play games for crypto"/>
-  <link rel="icon" type="image/png" href="supersize-inverted.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <style>
-    /* --- Media swap (image -> video on hover) --- */
-    .media-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    .media-container img,
-    .media-container video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* Default: show image, hide video via opacity (smoother than display) */
-    .media-container .default-img { opacity: 1; transition: opacity 200ms ease; }
-    .media-container .hover-play  { opacity: 0; transition: opacity 200ms ease; }
-
-    /* Hover/focus swap */
-    .media-container:is(:hover, :focus-within) .default-img { opacity: 0; }
-    .media-container:is(:hover, :focus-within) .hover-play  { opacity: 1; }
-
-    /* When JS toggles playing explicitly (for touch), use a class */
-    .media-container.is-playing .default-img { opacity: 0; }
-    .media-container.is-playing .hover-play  { opacity: 1; }
-  </style>
-</head>
-<body>
-  <section class="supersize">
-    <div class="supersize-inner">
-        <!-- <img src="supersize-inverted.png" alt="Supersize" class="supersize-logo"> -->
-        <h1 class="supersize-title">SUPERSIZE</h1>
-      <h2 class="supersize-subtitle">Casual games with real liquidity</h2>
-    </div>
-  </section>
-
-  <main class="page">
-    <section class="thesis">
-      <div class="section-inner">
-        <p>Supersize INC. is an onchain technology company creating high performance &amp; serverless real-money gaming apps on Solana.</p>
-      </div>
-    </section>
-
-    <section class="games">
-      <div class="section-inner">
-        <h2>Our Games</h2>
-        <div class="games-grid">
-          <!-- Card -->
-          <div class="game-card">
-            <div class="game-media">
-              <div class="media-container" tabindex="0" aria-label="Play Slimecoin preview">
-                <img src="slimecoin.png" alt="Slimecoin" class="default-img"/>
-                <video
-                  class="hover-play"
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  poster="slimecoin.png"
-                >
-                  <source src="slimecoin_preview.mp4" type="video/mp4"/>
-                </video>
-              </div>
-            </div>
-
-            <div class="game-overlay">
-              <div class="game-overlay-content">
-                <h3>Slimecoin.io</h3>
-                <p>Real-money io games. Fully onchain, non-custodial, with instant payouts.</p>
-                <div class="game-links">
-                  <a href="https://slimecoin.io" target="_blank" rel="noopener noreferrer">Play Now</a>
-                  <a href="https://x.com/slimecoinio" target="_blank" rel="noopener noreferrer">Twitter</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /Card -->
-        </div>
-      </div>
-    </section>
-
-    <section class="partners">
-      <div class="section-inner">
-        <h2>Partners &amp; Investors</h2>
-        <div class="partners-grid">
-          <a href="https://www.colosseum.com/" target="_blank" rel="noopener noreferrer">
-            <img src="colosseum.png" alt="Colosseum"/>
-          </a>
-          <a href="https://pressstart.capital/" target="_blank" rel="noopener noreferrer">
-            <img src="press-start.png" alt="Press Start"/>
-          </a>
-          <a href="https://www.sanctor.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sanctor.png" alt="Sanctor"/>
-          </a>
-          <a href="https://www.magicblock.xyz/" target="_blank" rel="noopener noreferrer">
-            <img src="magicblock.avif" alt="MagicBlock"/>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-        <div class="footerbar">
-            <img
-            src="supersize-inverted.png"
-            alt="Supersize"
-            class="supersize-logo"
-            />
-
-            <a
-            href="https://x.com/supersizegg"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-x"
-            aria-label="Follow on X"
-            title="Follow on X"
-            >
-            <svg viewBox="0 0 1200 1227" aria-hidden="true" class="btn-x__icon">
-                <path d="M714.163 519.284L1160.89 0H1028.21L667.137 417.233L378.216 0H0L466.392 681.03L0 1226.28H132.679L515.354 784.064L823.784 1226.28H1202.01L714.137 519.284H714.163ZM565.438 723.513L520.625 659.815L180.53 159.51H325.87L594.258 550.277L639.071 613.974L993.607 1066.89H848.267L565.438 723.539V723.513Z" fill="currentColor"/>
-            </svg>
-            <span class="btn-x__label">Follow</span>
-            </a>
-
-            <p class="footerbar__right">&copy; 2025 Supersize, Inc.</p>
-    
-        </div>
-  </footer>
-  <script>
-    document.querySelectorAll('.game-card').forEach(card => {
-      const mc  = card.querySelector('.media-container');
-      const vid = card.querySelector('video.hover-play');
-      const img = card.querySelector('img.default-img');
-      if (!mc || !vid || !img) return;
-    
-      // Desktop: play/pause when entering/leaving the entire card (not just media)
-      card.addEventListener('pointerenter', () => {
-        card.classList.add('is-playing');
-        vid.play().catch(() => {});
-      });
-    
-      card.addEventListener('pointerleave', () => {
-        vid.pause();
-        vid.currentTime = 0;
-        card.classList.remove('is-playing');
-      });
-    
-      // Touch: tap the media to toggle (cards don't have hover)
-      mc.addEventListener('click', (e) => {
-        // ignore if clicking links in the overlay
-        if (e.target.closest('.game-links a')) return;
-    
-        if (card.classList.contains('is-playing')) {
-          vid.pause();
-          vid.currentTime = 0;
-          card.classList.remove('is-playing');
-        } else {
-          card.classList.add('is-playing');
-          vid.play().catch(() => {});
-        }
-      });
-    });
-    </script>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supersize</title>
+    <meta name="description" content="Play games for crypto" />
+    <link rel="icon" type="image/png" href="/supersize-inverted.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
