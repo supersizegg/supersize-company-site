@@ -3,22 +3,27 @@ import { countProgramTxs } from "../utils/countProgramTxs";
 
 type Props = {
   programIds: readonly string[];
-  rpcUrl: string;
+  rpcUrls: readonly string[];
 };
 
 type FetchState =
   | { status: "loading" }
-  | { status: "success"; data: { last7d: number; last30d: number } }
+  | { status: "success"; data: { last7dTotal: number } }
   | { status: "error"; message: string };
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 
-export default function TransactionStats({ programIds, rpcUrl }: Props) {
+export default function TransactionStats({ programIds, rpcUrls }: Props) {
   const [state, setState] = useState<FetchState>({ status: "loading" });
 
   const uniqueProgramIds = useMemo(
     () => Array.from(new Set(programIds)),
     [programIds]
+  );
+
+  const uniqueRpcUrls = useMemo(
+    () => Array.from(new Set(rpcUrls)),
+    [rpcUrls]
   );
 
   useEffect(() => {
@@ -28,13 +33,12 @@ export default function TransactionStats({ programIds, rpcUrl }: Props) {
     async function load() {
       setState((prev) => (prev.status === "success" ? prev : { status: "loading" }));
       try {
-        const result = await countProgramTxs(rpcUrl, uniqueProgramIds);
+        const result = await countProgramTxs(uniqueRpcUrls, uniqueProgramIds);
         if (!cancelled) {
           setState({
             status: "success",
             data: {
-              last7d: result.last7d.union,
-              last30d: result.last30d.union,
+              last7dTotal: result.last7d.total,
             },
           });
         }
@@ -58,7 +62,7 @@ export default function TransactionStats({ programIds, rpcUrl }: Props) {
         clearTimeout(timeout);
       }
     };
-  }, [rpcUrl, uniqueProgramIds]);
+  }, [uniqueProgramIds, uniqueRpcUrls]);
 
   const renderValues = () => {
     if (state.status === "loading") {
@@ -71,8 +75,7 @@ export default function TransactionStats({ programIds, rpcUrl }: Props) {
 
     return (
       <span>
-        Last 7D: <span>{numberFormatter.format(state.data.last7d)}</span>{' | '}Last 30D:{' '}
-        <span>{numberFormatter.format(state.data.last30d)}</span>
+        Last 7D: <span>{numberFormatter.format(state.data.last7dTotal)}</span>
       </span>
     );
   };

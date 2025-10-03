@@ -91,53 +91,62 @@ async function fetchSignaturesSince(
   return signatures;
 }
 
+type RpcProgramSummary = {
+  perProgram: Record<string, number>;
+  total: number;
+};
+
 export async function countProgramTxs(
-  rpcUrl: string,
+  rpcUrls: readonly string[],
   programIds: readonly string[],
   opts?: { commitment?: Commitment }
 ): Promise<{
-  last7d: { perProgram: Record<string, number>; union: number };
-  last30d: { perProgram: Record<string, number>; union: number };
+  last7d: { perRpc: Record<string, RpcProgramSummary>; total: number };
 }> {
-  const connection = new Connection(rpcUrl, opts?.commitment ?? "confirmed");
-
+  const commitment = opts?.commitment ?? "confirmed";
   const nowSec = Math.floor(Date.now() / 1000);
   const since7d = nowSec - 7 * 24 * 60 * 60;
-  const since30d = nowSec - 30 * 24 * 60 * 60;
 
-  const perProgram7: Record<string, number> = {};
-  const perProgram30: Record<string, number> = {};
-  const union7 = new Set<string>();
-  const union30 = new Set<string>();
+  const uniqueRpcUrls = Array.from(new Set(rpcUrls));
+  const uniqueProgramIds = Array.from(new Set(programIds));
 
-  const resolveSlotTime = makeSlotTimeResolver(connection);
+  const rpcSummaries = await Promise.all(
+    uniqueRpcUrls.map(async (rpcUrl) => {
+      const connection = new Connection(rpcUrl, commitment);
+      const resolveSlotTime = makeSlotTimeResolver(connection);
 
-  for (const programId of programIds) {
-    const publicKey = new PublicKey(programId);
+      const programSummaries = await Promise.all(
+        uniqueProgramIds.map(async (programId) => {
+          const publicKey = new PublicKey(programId);
+          const signatures = await fetchSignaturesSince(
+            connection,
+            publicKey,
+            since7d,
+            commitment,
+            resolveSlotTime
+          );
 
-    const signatures30 = await fetchSignaturesSince(
-      connection,
-      publicKey,
-      since30d,
-      opts?.commitment ?? "confirmed",
-      resolveSlotTime
-    );
-    perProgram30[programId] = signatures30.size;
-    signatures30.forEach((signature) => union30.add(signature));
+          return { programId, count: signatures.size };
+        })
+      );
 
-    const signatures7 = await fetchSignaturesSince(
-      connection,
-      publicKey,
-      since7d,
-      opts?.commitment ?? "confirmed",
-      resolveSlotTime
-    );
-    perProgram7[programId] = signatures7.size;
-    signatures7.forEach((signature) => union7.add(signature));
+      const perProgram: Record<string, number> = {};
+      let total = 0;
+      for (const { programId, count } of programSummaries) {
+        perProgram[programId] = count;
+        total += count;
+      }
+
+      return { rpcUrl, summary: { perProgram, total } };
+    })
+  );
+
+  const perRpc: Record<string, RpcProgramSummary> = {};
+  let total = 0;
+  for (const { rpcUrl, summary } of rpcSummaries) {
+    perRpc[rpcUrl] = summary;
+    total += summary.total;
   }
 
-  return {
-    last7d: { perProgram: perProgram7, union: union7.size },
-    last30d: { perProgram: perProgram30, union: union30.size },
-  };
+  return { last7d: { perRpc, total } };
 }

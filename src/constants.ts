@@ -8,3 +8,9 @@ export const PROGRAM_IDS = [
   "wdH5MUvXcyKM58yffCxhRQfB5jLQHpnWZhhdYhLCThf",
   "DZtWbzgheM9YEaQu24dR3bkvWHURhSZw5jFwZyoz95DH",
 ] as const;
+
+export const DEFAULT_RPC_ENDPOINTS = [
+  "https://supersize-mainnet-bos.magicblock.app",
+  "https://supersize-mainnet.magicblock.app",
+  "https://supersize-mainnet-sin.magicblock.app",
+] as const;
