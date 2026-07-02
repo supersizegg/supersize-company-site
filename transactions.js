@@ -1,15 +1,15 @@
 (() => {
   const RPC_ENDPOINTS = [
     {
-      label: "BOS",
+      label: "US",
       url: "https://supersize-mainnet-bos.magicblock.app",
     },
     {
-      label: "MAIN",
+      label: "EU",
       url: "https://supersize-mainnet.magicblock.app",
     },
     {
-      label: "SIN",
+      label: "AS",
       url: "https://supersize-mainnet-sin.magicblock.app",
     },
   ];
