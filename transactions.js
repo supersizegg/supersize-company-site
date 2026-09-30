@@ -91,50 +91,144 @@
     statusEl.classList.toggle("is-error", state === "error");
   };
 
-  const renderTransactions = (transactions) => {
-    if (!transactions.length) {
-      const emptyItem = document.createElement("li");
-      emptyItem.className = "transaction-feed-empty";
-      emptyItem.textContent = "Waiting for recent on-chain activity...";
-      listEl.replaceChildren(emptyItem);
+  const MAX_ROWS = 12;
+  const SEEN_LIMIT = 500;
+  const seen = new Set();
+  const seenOrder = [];
+  const queue = [];
+  let isDripping = false;
+  let hasRendered = false;
+  let arrivedCount = 0;
+  const counterEl = document.getElementById("transaction-feed-count");
+
+  const markSeen = (signature) => {
+    seen.add(signature);
+    seenOrder.push(signature);
+
+    if (seenOrder.length > SEEN_LIMIT) {
+      seen.delete(seenOrder.shift());
+    }
+  };
+
+  const renderEmpty = () => {
+    const emptyItem = document.createElement("li");
+    emptyItem.className = "transaction-feed-empty";
+    emptyItem.textContent = "Waiting for recent on-chain activity...";
+    listEl.replaceChildren(emptyItem);
+  };
+
+  const createRow = (transaction) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    const program = document.createElement("span");
+    const copy = document.createElement("span");
+    const signature = document.createElement("span");
+    const meta = document.createElement("span");
+
+    item.className = "transaction-feed-item";
+    item.dataset.blockTime = transaction.blockTime || "";
+    item.dataset.endpoint = transaction.endpointLabel;
+
+    link.className = "transaction-feed-link";
+    link.href = explorerUrl(transaction.signature, transaction.endpointUrl);
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.title = `Inspect ${transaction.signature}`;
+
+    program.className = `transaction-program transaction-program--${transaction.programClass}`;
+    program.textContent = transaction.programLabel;
+
+    copy.className = "transaction-copy";
+    signature.className = "transaction-signature";
+    signature.textContent = truncateSignature(transaction.signature);
+
+    meta.className = "transaction-meta";
+    meta.textContent = `${transaction.endpointLabel} - ${formatAge(transaction.blockTime)}`;
+
+    copy.append(signature, meta);
+    link.append(program, copy);
+    item.append(link);
+    return item;
+  };
+
+  const updateAges = () => {
+    listEl.querySelectorAll(".transaction-feed-item").forEach((item) => {
+      const meta = item.querySelector(".transaction-meta");
+      const blockTime = Number(item.dataset.blockTime) || 0;
+      meta.textContent = `${item.dataset.endpoint} - ${formatAge(blockTime)}`;
+    });
+  };
+
+  const trimRows = () => {
+    const rows = listEl.querySelectorAll(".transaction-feed-item");
+
+    for (let i = MAX_ROWS; i < rows.length; i += 1) {
+      rows[i].remove();
+    }
+  };
+
+  const updateCounter = () => {
+    if (counterEl) {
+      counterEl.textContent = arrivedCount.toLocaleString();
+    }
+  };
+
+  // Release queued transactions one at a time, spread across the refresh
+  // window, so bursts read as a continuous stream rather than a swap.
+  const drip = () => {
+    const transaction = queue.shift();
+
+    if (!transaction) {
+      isDripping = false;
       return;
     }
 
-    const fragment = document.createDocumentFragment();
+    listEl.querySelector(".transaction-feed-empty")?.remove();
 
-    transactions.forEach((transaction) => {
-      const item = document.createElement("li");
-      const link = document.createElement("a");
-      const program = document.createElement("span");
-      const copy = document.createElement("span");
-      const signature = document.createElement("span");
-      const meta = document.createElement("span");
+    const row = createRow(transaction);
+    row.classList.add("is-new");
+    listEl.prepend(row);
+    trimRows();
+    arrivedCount += 1;
+    updateCounter();
 
-      item.className = "transaction-feed-item";
+    const delay = Math.max(70, Math.min(450, REFRESH_INTERVAL_MS / (queue.length + 1)));
+    window.setTimeout(drip, delay);
+  };
 
-      link.className = "transaction-feed-link";
-      link.href = explorerUrl(transaction.signature, transaction.endpointUrl);
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.title = `Inspect ${transaction.signature}`;
+  const renderTransactions = (transactions) => {
+    if (!hasRendered) {
+      if (!transactions.length) {
+        renderEmpty();
+        return;
+      }
 
-      program.className = `transaction-program transaction-program--${transaction.programClass}`;
-      program.textContent = transaction.programLabel;
+      hasRendered = true;
+      transactions.forEach((transaction) => markSeen(transaction.signature));
+      listEl.replaceChildren(...transactions.slice(0, MAX_ROWS).map(createRow));
+      return;
+    }
 
-      copy.className = "transaction-copy";
-      signature.className = "transaction-signature";
-      signature.textContent = truncateSignature(transaction.signature);
+    // Oldest first, so the newest ends up on top after prepending.
+    const fresh = transactions
+      .filter((transaction) => !seen.has(transaction.signature))
+      .reverse();
 
-      meta.className = "transaction-meta";
-      meta.textContent = `${transaction.endpointLabel} - ${formatAge(transaction.blockTime)}`;
-
-      copy.append(signature, meta);
-      link.append(program, copy);
-      item.append(link);
-      fragment.append(item);
+    fresh.forEach((transaction) => {
+      markSeen(transaction.signature);
+      queue.push(transaction);
     });
 
-    listEl.replaceChildren(fragment);
+    if (queue.length > MAX_ROWS) {
+      queue.splice(0, queue.length - MAX_ROWS);
+    }
+
+    updateAges();
+
+    if (!isDripping && queue.length) {
+      isDripping = true;
+      drip();
+    }
   };
 
   const rpc = async (endpoint, method, params) => {
@@ -247,7 +341,7 @@
 
       if (!fulfilled.length) {
         if (!latestTransactions.length) {
-          renderTransactions([]);
+          renderEmpty();
         }
 
         setStatus("Offline", "error");

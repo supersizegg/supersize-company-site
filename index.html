@@ -3,189 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Supersize</title>
-  <meta name="description" content="Play games for crypto"/>
+  <title>Supersize - Classic games, real stakes.</title>
+  <meta name="description" content="Supersize makes skill-based games you can play for real money, with every match settled transparently on Solana. Makers of Slimecoin and Solitaire.fun."/>
+  <meta name="theme-color" content="#f6f5f1"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Supersize"/>
+  <meta property="og:title" content="Supersize - classic games, real stakes."/>
+  <meta property="og:description" content="Skill-based games for real money, settled transparently on Solana. Makers of Slimecoin.io and Solitaire.fun."/>
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
   <script src="transactions.js" defer></script>
-  <style>
-    /* --- Media swap (image -> video on hover) --- */
-    .media-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    .media-container img,
-    .media-container video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* Default: show image, hide video via opacity (smoother than display) */
-    .media-container .default-img { opacity: 1; transition: opacity 200ms ease; }
-    .media-container .hover-play  { opacity: 0; transition: opacity 200ms ease; }
-
-    /* Hover/focus swap */
-    .media-container:is(:hover, :focus-within) .default-img { opacity: 0; }
-    .media-container:is(:hover, :focus-within) .hover-play  { opacity: 1; }
-
-    /* When JS toggles playing explicitly (for touch), use a class */
-    .media-container.is-playing .default-img { opacity: 0; }
-    .media-container.is-playing .hover-play  { opacity: 1; }
-  </style>
 </head>
 <body>
-  <section class="supersize">
-    <div class="supersize-inner">
-        <!-- <img src="supersize-inverted.png" alt="Supersize" class="supersize-logo"> -->
-        <h1 class="supersize-title">SUPERSIZE</h1>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="brand" aria-label="Supersize home">
+        <!-- <img src="supersize.png" alt="" class="brand-mark"/> -->
+        <span>Supersize</span>
+      </a>
+      <a href="mailto:lewis@supersize.gg" class="btn btn-dark btn-sm">Contact us</a>
     </div>
-  </section>
+  </header>
 
-  <main class="page">
-    <section class="thesis">
-      <div class="section-inner">
-        <p>We’re building a forever-home for classic internet games. We believe competitive gaming should be fair, fun, and rewarding for everyone.</p>
-      </div>
-      </br>
-      <div class="section-inner">
-        <p>Our games are built with zero servers. Every match is transparent and verifiable. 
-        Every move, score, and result is recorded on the Solana public ledger.</p>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <h1>Classic games,<br/>real stakes.</h1>
+        <p class="hero-lede">
+          We build skill-based games you play against other players for money.
+          Every match is recorded on a blockchain.
+        </p>
       </div>
     </section>
 
-    <section class="games">
-      <div class="section-inner">
-        <div class="games-grid">
-          <!-- Card -->
-          <div class="game-card">
-            <div class="game-media">
-              <div
-                class="media-container"
-                tabindex="0"
-                aria-label="Play Slimecoin preview"
-              >
-                <img
-                  src="slimecoin.png"
-                  alt="Slimecoin"
-                  class="default-img"
-                />
-              </div>
-            </div>
-        
-            <div class="game-overlay">
-              <div class="game-overlay-content">
-                <h3>Slimecoin.io</h3>
-                <div class="game-links">
-                  <a
-                    href="https://slimecoin.io"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >Play Now</a>
-                  <a
-                    href="https://slimecoin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >Docs</a>
-                </div>
-              </div>
-            </div>
+    <section class="games" aria-label="Our games">
+      <div class="container showcase">
+        <article class="panel panel--slime">
+          <img src="slimecoin-io.webp" alt="Slimecoin puzzle and arcade games on phones" class="panel-bg" width="1170" height="780"/>
+          <div class="panel-copy">
+            <p class="panel-brand"><img src="slimecoin.png" alt="" width="24" height="24"/>Slimecoin</p>
+            <h2>Your favorite games.<br/>Reimagined.</h2>
+            <p class="panel-sub">Play puzzles and arcade games against other players for cash&nbsp;prizes.</p>
+            <a href="https://slimecoin.io" target="_blank" rel="noopener noreferrer" class="btn btn-light panel-cta">Play Slimecoin.io <span aria-hidden="true">↗</span></a>
           </div>
-          <!-- /Card -->
+        </article>
 
-          <section class="transaction-feed-card" aria-labelledby="transaction-feed-title">
-            <div class="transaction-feed-header">
-              <div>
-                <p class="transaction-feed-kicker">On-chain activity</p>
-                <h3 id="transaction-feed-title">Recent Transactions</h3>
-              </div>
-              <span id="transaction-feed-status" class="transaction-feed-status" aria-live="polite">Syncing</span>
-            </div>
-
-            <ul id="transaction-feed-list" class="transaction-feed-list">
-              <li class="transaction-feed-empty">Loading recent activity...</li>
-            </ul>
-          </section>
-        </div>        
+        <article class="panel panel--solitaire">
+          <div class="tableau">
+            <img src="solitaire-fun.webp" alt="A Klondike solitaire game in progress" width="1170" height="780"/>
+          </div>
+          <div class="panel-copy">
+            <p class="panel-brand"><img src="solitaire.png" alt="" width="24" height="24"/>Solitaire.fun</p>
+            <h2>Play solitaire<br/>for cash.</h2>
+            <p class="panel-sub">Head-to-head Klondike. Play for free or compete for&nbsp;USDC.</p>
+            <a href="https://solitaire.fun" target="_blank" rel="noopener noreferrer" class="btn btn-light panel-cta">Play Solitaire.fun <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="partners">
-      <div class="section-inner">
-        <h2>Partners &amp; Investors</h2>
+    <section class="fair" aria-labelledby="fair-title">
+      <div class="container fair-grid">
+        <div>
+          <h2 id="fair-title">Don’t trust. Verify.</h2>
+          <ul class="pillars">
+            <li>
+              <h3>Same game. Same conditions.</h3>
+              <p>Opponents get the same deal or starting setup.</p>
+            </li>
+            <li>
+              <h3>Replay the match.</h3>
+              <p>Watch your opponent’s game after the match, move&nbsp;by&nbsp;move.</p>
+            </li>
+            <li>
+              <h3>Serverless games.</h3>
+              <p>Our games run entirely on Solana. No black box that decides the match outcome. Every move, score and result is publicly recorded and verifiable.</p>
+            </li>
+          </ul>
+        </div>
+
+        <section class="feed" aria-labelledby="transaction-feed-title">
+          <div class="feed-head">
+            <h3 id="transaction-feed-title">Live transactions</h3>
+            <span id="transaction-feed-status" class="transaction-feed-status" aria-live="polite">Syncing</span>
+          </div>
+          <ul id="transaction-feed-list" class="transaction-feed-list">
+            <li class="transaction-feed-empty">Loading recent activity…</li>
+          </ul>
+          <p class="feed-foot"><strong id="transaction-feed-count">0</strong> new since you opened this page</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="partners" aria-labelledby="partners-title">
+      <div class="container">
+        <h2 id="partners-title" class="partners-title">Partners &amp; investors</h2>
         <div class="partners-grid">
-          <a href="https://www.colosseum.com/" target="_blank" rel="noopener noreferrer">
-            <img src="colosseum.png" alt="Colosseum"/>
-          </a>
-          <a href="https://pressstart.capital/" target="_blank" rel="noopener noreferrer">
-            <img src="press-start.png" alt="Press Start"/>
-          </a>
-          <a href="https://www.sanctor.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sanctor.png" alt="Sanctor"/>
-          </a>
-          <a href="https://www.magicblock.xyz/" target="_blank" rel="noopener noreferrer">
-            <img src="magicblock.avif" alt="MagicBlock"/>
-          </a>
+          <a href="https://colosseum.com/" target="_blank" rel="noopener noreferrer"><img src="colosseum.png" alt="Colosseum" class="logo-colosseum"/></a>
+          <a href="https://pressstart.capital/" target="_blank" rel="noopener noreferrer" class="logo-detailed"><img src="press-start.png" alt="Press Start Capital" class="logo-pressstart"/></a>
+          <a href="https://www.sanctor.com/" target="_blank" rel="noopener noreferrer"><img src="sanctor.png" alt="Sanctor Capital" class="logo-sanctor"/></a>
+          <a href="https://www.magicblock.xyz/" target="_blank" rel="noopener noreferrer"><img src="magicblock.avif" alt="MagicBlock" class="logo-magicblock"/></a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-        <div class="footerbar">
-            <nav class="footer-legal-links" aria-label="Legal links">
-              <a href="/license" class="footer-legal-link">Terms of Use</a>
-              <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
-              <a href="/responsible-gaming" class="footer-legal-link">Responsible Gaming</a>
-              <a href="/skill-games-legality" class="footer-legal-link">Skill Games Legality</a>
-            </nav>
-
-            <p class="footerbar__right">&copy; 2026 Supersize, Inc.</p>
-    
-        </div>
+    <div class="container">
+      <div class="footer-top">
+        <a href="/" class="brand">
+          <img src="supersize.png" alt="" class="brand-mark"/>
+          <span>Supersize</span>
+        </a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="https://slimecoin.io" target="_blank" rel="noopener noreferrer">Slimecoin.io</a>
+          <a href="https://solitaire.fun" target="_blank" rel="noopener noreferrer">Solitaire.fun</a>
+          <a href="https://docs.slimecoin.com" target="_blank" rel="noopener noreferrer">Docs</a>
+          <a href="mailto:lewis@supersize.gg">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p><span class="age">18+</span> Skill-based competitions, offered only where permitted by law. Play responsibly.</p>
+        <nav class="footer-legal" aria-label="Legal">
+          <a href="/license">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/responsible-gaming">Responsible Gaming</a>
+          <a href="/skill-games-legality">Skill Games Legality</a>
+        </nav>
+        <p class="copyright">&copy; 2026 Supersize, Inc.</p>
+      </div>
+    </div>
   </footer>
-  <script>
-    document.querySelectorAll('.game-card').forEach(card => {
-      const mc  = card.querySelector('.media-container');
-      const vid = card.querySelector('video.hover-play');
-      const img = card.querySelector('img.default-img');
-      if (!mc || !vid || !img) return;
-    
-      // Desktop: play/pause when entering/leaving the entire card (not just media)
-      card.addEventListener('pointerenter', () => {
-        card.classList.add('is-playing');
-        vid.play().catch(() => {});
-      });
-    
-      card.addEventListener('pointerleave', () => {
-        vid.pause();
-        vid.currentTime = 0;
-        card.classList.remove('is-playing');
-      });
-    
-      // Touch: tap the media to toggle (cards don't have hover)
-      mc.addEventListener('click', (e) => {
-        // ignore if clicking links in the overlay
-        if (e.target.closest('.game-links a')) return;
-    
-        if (card.classList.contains('is-playing')) {
-          vid.pause();
-          vid.currentTime = 0;
-          card.classList.remove('is-playing');
-        } else {
-          card.classList.add('is-playing');
-          vid.play().catch(() => {});
-        }
-      });
-    });
-    </script>
-    
 </body>
 </html>
