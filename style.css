@@ -133,10 +133,15 @@ h3 {
   align-items: end;
   gap: 32px 64px;
 }
+.hero-heading {
+  container-type: inline-size;
+}
 .hero h1 {
-  font-size: clamp(3rem, 7.4vw, 7rem);
+  /* Keep each line together and fit the heading's actual column width. */
+  font-size: min(clamp(3rem, 7.4vw, 7rem), 13cqi);
   line-height: 0.95;
   letter-spacing: -0.045em;
+  white-space: nowrap;
 }
 .hero-lede {
   max-width: 30rem;
