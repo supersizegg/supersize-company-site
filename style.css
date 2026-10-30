@@ -137,8 +137,8 @@ h3 {
   container-type: inline-size;
 }
 .hero h1 {
-  /* Keep each line together and fit the heading's actual column width. */
-  font-size: min(clamp(3rem, 7.4vw, 7rem), 13cqi);
+  /* Fit both headline lines within the heading's actual column width. */
+  font-size: min(clamp(3rem, 7.4vw, 7rem), 11.5cqi);
   line-height: 0.95;
   letter-spacing: -0.045em;
   white-space: nowrap;
